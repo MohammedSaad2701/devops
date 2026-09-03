@@ -1,0 +1,3 @@
+  PID TTY           TIME CMD
+  795 ttys000    0:00.40 -zsh
+ 4850 ttys000    0:00.01 /bin/bash ./system_info.sh
