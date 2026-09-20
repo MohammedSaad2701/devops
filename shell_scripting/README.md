@@ -1,37 +1,51 @@
-# System Information Script
+# Shell Scripting: System Information
 
-A Bash shell script that displays basic system information and stores
-running process information in a file.
+`system_info.sh` prints basic system information and saves the current process list in a file.
 
-## Features
-
-The script:
-
-- Prints the current date
-- Prints the hostname
-- Prints the current username
-- Displays disk usage
-- Displays running processes
-- Uses variables
-- Takes user input using `read -p`
-- Creates a directory using `mkdir`
-- Creates a file using `touch`
-- Stores process information using `>` output redirection
-
-## Commands Used
-
-- `mkdir`
-- `touch`
-- `echo`
-- `df`
-- `ps`
-- `read -p`
-- Variables
-- `>` output redirection
-
-## How to Run
-
-Give execution permission:
+## Run the script
 
 ```bash
 chmod +x system_info.sh
+./system_info.sh
+```
+
+## Input
+
+The script asks for a directory name. For example:
+
+```text
+Enter a directory name: sample_output1
+```
+
+It creates the directory and writes the process list to `sample_output1/processes.txt`.
+
+## Output
+
+The terminal output includes:
+
+```text
+===== SYSTEM INFORMATION =====
+Date: <current date>
+Hostname: <computer name>
+Username: <current user>
+
+===== DISK USAGE =====
+<df -h output>
+
+===== RUNNING PROCESSES =====
+<ps output>
+
+Running processes have been saved to sample_output1/processes.txt
+```
+
+View the saved output with:
+
+```bash
+cat sample_output1/processes.txt
+```
+
+The repository also includes example output in `sample_output1/` and `system_output/`.
+
+## Commands demonstrated
+
+`read`, variables, `mkdir`, `touch`, `echo`, `date`, `hostname`, `whoami`, `df`, `ps`, and `>` redirection.
