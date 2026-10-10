@@ -17,17 +17,9 @@ An `emptyDir` is created with a Pod and removed when the Pod is deleted. Contain
 
 Use it for temporary data, not data that must survive Pod replacement.
 
-![Containers sharing an emptyDir log](screenshots/7.png)
-
-![A recreated Pod starts with a new emptyDir](screenshots/5.png)
-
 ## `hostPath`
 
 `hostPath` mounts a node directory into a Pod. The example in [`02-hostpath.yaml`](01-kubernetes-volumes/02-hostpath.yaml) mounts `/tmp` read-only. This can suit node agents, but is usually unsuitable for application data: Pods depend on the node, and writable host mounts can create security risks.
-
-![Reading a file from the Minikube node](screenshots/6.png)
-
-![The read-only mount blocks writes](screenshots/2.png)
 
 ## PersistentVolumes and claims
 
@@ -42,10 +34,6 @@ kubectl get pv,pvc
 kubectl describe pvc pvc-demo
 ```
 
-![The static PV and PVC are bound](screenshots/10.png)
-
-![Reading data from the mounted PV](screenshots/1.png)
-
 Access modes control mounting: `ReadWriteOnce` allows read-write access from one node; `ReadOnlyMany` allows read-only access across nodes; `ReadWriteMany` allows shared read-write access when supported. `ReadWriteOncePod` restricts access to one Pod when supported by the driver.
 
 ## StorageClass and dynamic provisioning
@@ -56,11 +44,53 @@ A StorageClass describes how storage is created. A PVC that names one can trigge
 
 StorageClass settings include the provisioner, backend parameters, reclaim policy, expansion support, and binding mode. `WaitForFirstConsumer` delays provisioning until a Pod is scheduled, helping match storage to its location.
 
-![Minikube successfully provisions storage](screenshots/9.png)
+## Screenshots
 
-![Static and dynamic volumes, including readable dynamic data](screenshots/4.png)
+Screenshots are shown in their original numbered order.
 
-![Default StorageClass and dynamic PVC](screenshots/11.png)
+1. Persistent data is readable from the mounted volume.
+
+   ![Screenshot 1: Reading data from a persistent volume](screenshots/1.png)
+
+2. The read-only `hostPath` mount blocks writes.
+
+   ![Screenshot 2: Write attempt blocked by the read-only hostPath mount](screenshots/2.png)
+
+3. PVC deletion and the PV's reclaim behavior are checked.
+
+   ![Screenshot 3: Checking the PV after deleting its PVC](screenshots/3.png)
+
+4. Static and dynamically provisioned volumes are listed, and dynamic data is read.
+
+   ![Screenshot 4: PV listing and dynamically stored data](screenshots/4.png)
+
+5. A recreated Pod has a fresh `emptyDir`.
+
+   ![Screenshot 5: Recreated emptyDir Pod](screenshots/5.png)
+
+6. The Pod reads a file created on the Minikube node.
+
+   ![Screenshot 6: Reading a node file through hostPath](screenshots/6.png)
+
+7. Two containers share files through `emptyDir`.
+
+   ![Screenshot 7: Containers sharing an emptyDir log](screenshots/7.png)
+
+8. PVC consumer Pod recreation is demonstrated.
+
+   ![Screenshot 8: Recreating a Pod using the PVC](screenshots/8.png)
+
+9. Minikube reports successful dynamic volume provisioning.
+
+   ![Screenshot 9: Dynamic provisioning events](screenshots/9.png)
+
+10. The static PV and PVC are created and bound to the consumer Pod.
+
+    ![Screenshot 10: Applying the static PV, PVC, and Pod](screenshots/10.png)
+
+11. The default StorageClass and dynamically bound PVC are shown.
+
+    ![Screenshot 11: StorageClass and dynamic PVC](screenshots/11.png)
 
 ## Run the examples
 
