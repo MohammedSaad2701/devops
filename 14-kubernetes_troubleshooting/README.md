@@ -223,3 +223,46 @@ Screenshots from [`02-common-issues/screenshots/`](02-common-issues/screenshots/
     ![Common issue screenshot 9_1](02-common-issues/screenshots/9_1.png)
 19. `9_2.png`
     ![Common issue screenshot 9_2](02-common-issues/screenshots/9_2.png)
+
+## Troubleshooting Mini Project — Yatri Shop
+
+Yatri Shop has an NGINX frontend that proxies `/api/` requests to an NGINX API. The broken deployment contains several layered issues: resolving each one reveals the next, much like troubleshooting a real outage.
+
+```text
+User -> NodePort 30081 -> Frontend Service -> NGINX frontend
+                                            -> API Service -> NGINX API
+```
+
+The deliberately broken manifests are in [`03-mini-project/broken/`](03-mini-project/broken/); corrected versions are in [`03-mini-project/fixed/`](03-mini-project/fixed/).
+
+### Investigation summary
+
+| Step | Symptom | Cause | Resolution |
+| --- | --- | --- | --- |
+| 1 | Frontend Pods remain `Pending` | CPU request exceeds node capacity | Set realistic CPU requests and limits |
+| 2 | Frontend repeatedly exits | `proxy_pass` points to a Service name that does not exist | Use the `api-svc` Service and restart the frontend |
+| 3 | Frontend runs but cannot be reached | Service selector does not match Pod labels | Align the selector with the frontend labels |
+| 4 | Home page works; API returns 502 | Readiness probe checks `/health`, but the API serves `/healthz` | Update the probe path |
+| 5 | API endpoints are ready but return 502 | Service `targetPort` is 80 while the API listens on 8080 | Set `targetPort: 8080` |
+
+After correcting the issues, verify both Deployments are ready and compare the live resources with the fixed manifests using `kubectl diff`.
+
+### Mini-project screenshots
+
+All screenshots from [`03-mini-project/screenshots/`](03-mini-project/screenshots/) are included below in numeric order.
+
+1. ![Yatri Shop screenshot 1](03-mini-project/screenshots/1.png)
+2. ![Yatri Shop screenshot 2](03-mini-project/screenshots/2.png)
+3. ![Yatri Shop screenshot 3](03-mini-project/screenshots/3.png)
+4. ![Yatri Shop screenshot 4](03-mini-project/screenshots/4.png)
+5. ![Yatri Shop screenshot 5](03-mini-project/screenshots/5.png)
+6. ![Yatri Shop screenshot 6](03-mini-project/screenshots/6.png)
+7. ![Yatri Shop screenshot 7](03-mini-project/screenshots/7.png)
+8. ![Yatri Shop screenshot 8](03-mini-project/screenshots/8.png)
+9. ![Yatri Shop screenshot 9](03-mini-project/screenshots/9.png)
+10. ![Yatri Shop screenshot 10](03-mini-project/screenshots/10.png)
+11. ![Yatri Shop screenshot 11](03-mini-project/screenshots/11.png)
+12. ![Yatri Shop screenshot 12](03-mini-project/screenshots/12.png)
+13. ![Yatri Shop screenshot 13](03-mini-project/screenshots/13.png)
+14. ![Yatri Shop screenshot 14](03-mini-project/screenshots/14.png)
+15. ![Yatri Shop screenshot 15](03-mini-project/screenshots/15.png)
