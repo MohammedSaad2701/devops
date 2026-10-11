@@ -1,104 +1,66 @@
 # Observability
 
-Observability is the ability to understand a system from the signals it emits. It is broader than dashboards and basic alerting: it lets you answer questions you did not know to ask in advance.
+Observability is the ability to understand a running system from the signals it emits. It goes beyond simple dashboards and alerts: it helps answer what is happening, why it happened, and where the problem is.
 
 ## Monitoring vs observability
 
-**Monitoring** tells you when something is likely wrong: CPU is high, the error rate jumped, or a service is down.
+Monitoring tells you when something is wrong: CPU is high, a pod is unhealthy, or the error rate jumped.
 
-**Observability** helps you explain why: which dependency slowed the request, which pod failed, or which version introduced the issue.
+Observability explains why: which dependency slowed the request, which pod failed, or which change introduced the issue.
 
-| Area | Monitoring | Observability |
-| --- | --- | --- |
-| Questions | Known in advance | Unclear at the start |
-| Output | Alerts and dashboards | Correlated metrics, logs and traces |
-| Goal | Detect issues | Understand root cause |
+A simple way to think about it:
 
-Monitoring is a subset of observability, not a replacement for it.
+- Monitoring: detect a problem
+- Observability: understand the problem
 
 ## The three pillars
 
-### 1. Metrics
+### Metrics
 
-Metrics are numeric time-series data: CPU, request rate, latency, queue depth, error count.
+Metrics are numeric signals over time: CPU, memory, request rate, latency, and errors.
 
-Common patterns:
+Common patterns include:
 - RED: rate, errors, duration
 - USE: utilisation, saturation, errors
 - SRE golden signals: latency, traffic, errors, saturation
 
-Prometheus is the standard choice for collecting and querying metrics.
+Prometheus is the standard tool for collecting and querying metrics.
 
-### 2. Logs
+### Logs
 
-Logs are timestamped records of discrete events. They are rich in detail but noisy and expensive at scale.
+Logs record discrete events and are useful for debugging. They are detailed but noisy, so structured logs are preferred over plain text.
 
 Best practice:
-- use structured JSON logs
-- include a `trace_id` or request ID
-- avoid logging secrets and personal data
+- use structured JSON
+- include request IDs or trace IDs
+- avoid logging secrets or personal data
 
-### 3. Traces
+### Traces
 
-Traces show the full path of one request across services. They answer: where did the time go, and which service caused the delay?
-
-A trace is made of spans. Each span records one unit of work, its duration, and metadata.
+Traces follow one request through the system. They show where time was spent and which service introduced the delay.
 
 ## Why they matter together
 
-A healthy system needs all three:
+A healthy system needs all three signals:
 
 ```text
-Metric alert fires: p99 latency is high
-        ↓
-Trace shows the slow step
-        ↓
-Logs show the error detail and dependency response
+Alert fires -> metric shows the spike
+Trace identifies the slow step
+Logs explain the exact failure or dependency issue
 ```
 
-When metrics, logs and traces are correlated by labels like `service`, `namespace`, `pod`, and `trace_id`, they become true observability instead of three disconnected signals.
-
-## Why observability is important
-
-- Distributed systems fail in ways teams do not predict ahead of time
-- Kubernetes Pods are short-lived and move around
-- Outages are often caused by slow diagnosis, not just bad code
-- SLOs and error budgets require meaningful measurements
-- Deployments and rollbacks need evidence from live systems
-
-## Common tools
-
-| Category | Typical tools |
-| --- | --- |
-| Metrics | Prometheus, Mimir, Thanos, VictoriaMetrics |
-| Logs | Loki, Elasticsearch/OpenSearch, Fluent Bit, Vector |
-| Traces | Jaeger, Tempo, Zipkin |
-| Visualisation | Grafana, Kibana |
-| Alerting | Alertmanager, Grafana Alerting |
-| Instrumentation | OpenTelemetry |
-
-OpenTelemetry is the standard way to emit metrics, logs and traces from applications. It keeps instrumentation vendor-neutral so data can be sent to different backends later.
-
-A typical open-source stack is often called LGTM:
-
-```text
-Apps (OTel SDK) → OpenTelemetry Collector → Prometheus / Loki / Tempo → Grafana
-                                                    ↘ Alertmanager → Slack / PagerDuty
-```
+When metrics, logs, and traces are connected by labels such as service, namespace, pod, and trace ID, they become real observability rather than disconnected data sources.
 
 ## Kubernetes observability
 
-Kubernetes adds another layer of signals to track:
+In Kubernetes, useful signals include:
 
-| Layer | What to watch |
-| --- | --- |
-| Cluster / control plane | API server health, scheduler, etcd |
-| Nodes | CPU, memory, disk, pressure |
-| Kubernetes objects | Replica counts, Pod state, restarts, HPA |
-| Containers | usage vs requests/limits, throttling, OOM |
-| Applications | RED metrics, business metrics |
-| Logs | all container stdout/stderr |
-| Events | scheduling, image pull, readiness failures |
+- pod health and readiness
+- deployment replica status
+- node CPU and memory usage
+- container limits and throttling
+- app-level RED metrics
+- cluster events and crashes
 
 Useful commands:
 
@@ -110,23 +72,14 @@ kubectl describe pod <pod>
 kubectl logs <pod> --previous
 ```
 
-For production-style monitoring, the kube-prometheus-stack is a common starting point because it includes Prometheus, Alertmanager, Grafana, node-exporter and kube-state-metrics.
+## Common stack
 
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-helm install monitoring prometheus-community/kube-prometheus-stack \
-  --namespace monitoring --create-namespace
-```
+A common open-source setup is:
 
-## Core alerts to start with
+- Prometheus for metrics
+- Alertmanager for alert routing
+- Grafana for dashboards
+- Loki for logs
+- Tempo or Jaeger for traces
 
-- Pod crash looping
-- Pod not ready
-- Deployment replicas unavailable
-- Container near memory limit
-- CPU throttling
-- Node not ready
-- PVC nearly full
-- High error rate
-
-The [monitoring demo](../01-monitoring/) in this session applies these ideas in practice with Prometheus, Grafana, Alertmanager and an instrumented app on minikube.
+This project applies those ideas in practice with a live monitoring demo on minikube.

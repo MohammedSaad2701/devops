@@ -1,29 +1,29 @@
 # GitOps and monitoring lab
 
-This project brings together Kubernetes monitoring and GitOps in one small lab. It shows how a workload can be observed in real time, how alerts fire and resolve, and how Git-driven deployment can keep a cluster aligned to the repository.
+This project combines Kubernetes monitoring with GitOps in a compact lab. It shows how telemetry, alerting, and Git-driven deployment work together in a real cluster.
 
-## What this lab demonstrates
+## What this lab shows
 
-- Prometheus scraping app metrics and Kubernetes targets
-- Grafana dashboards for live health and traffic visibility
+- Prometheus collecting metrics from the app and Kubernetes
+- Grafana dashboards for health, traffic, and resource usage
 - Alertmanager routing active and resolved alerts
-- CPU, memory, latency, readiness, and error-rate monitoring
-- Argo CD reconciling Git changes into the cluster
+- Argo CD syncing the cluster state from Git
+- self-healing, rollback, and prune behavior from repository changes
 
 ## Quick setup
 
 ```bash
 minikube image load metrics-app:1.0.0
-kubectl apply -f k8s/00-namespace.yaml
-kubectl -n monitoring create secret generic grafana-admin --from-literal=password=<choose one>
-kubectl apply -f k8s/
+kubectl apply -f 01-monitoring/k8s/00-namespace.yaml
+kubectl -n monitoring create secret generic grafana-admin --from-literal=password=admin123
+kubectl apply -f 01-monitoring/k8s/
 kubectl -n monitoring port-forward svc/grafana 3000:3000
 kubectl -n monitoring port-forward svc/prometheus 9090:9090
 ```
 
 ## Short summary
 
-An instrumented app generated a mix of normal traffic, CPU-heavy `/work` requests, and failing `/error` requests. Prometheus collected metrics and discovered targets via annotations, while kube-state-metrics and cAdvisor showed pod resource usage. Alertmanager tracked firing and resolved states, and Grafana displayed the final dashboard. Separately, the GitOps part showed Argo CD pulling configuration from Git and syncing the Git state into the cluster.
+An instrumented app generated normal traffic, CPU-heavy `/work` requests, and failing `/error` requests. Prometheus gathered the metrics, kube-state-metrics and cAdvisor exposed resource usage, and Grafana visualised the results. In the GitOps flow, Argo CD watched the Git repository, applied the desired state to the cluster, and corrected drift automatically. The demo also showed a bad commit being rejected, a revert restoring the last working state, and a deleted object being pruned when the Git source changed.
 
 ## Screenshot evidence
 
@@ -59,16 +59,18 @@ An instrumented app generated a mix of normal traffic, CPU-heavy `/work` request
 
 ![Cluster status](./screenshots/Screenshot%202026-10-11%20at%2010.38.49%E2%80%AFPM.png)
 
-### Argo CD GitOps flow
+### GitOps flow
 
-![Argo CD GitOps view](./03-gitops/argocd-yatri-gitops-from-github_24bcs10326.png)
+![GitOps flow](./screenshots/Screenshot%202026-10-11%20at%2010.46.07%E2%80%AFPM.png)
 
 ### GitOps deployment status
 
 ![GitOps deployment status](./screenshots/Screenshot%202026-10-11%20at%2010.39.42%E2%80%AFPM.png)
 
-## Notes
+### GitOps sync and drift recovery
 
-- This lab is intended for learning and hands-on testing on a small cluster.
-- Alert thresholds and resource limits should be reviewed before using the setup in production.
-- The main lesson is that observability and GitOps work best together: you can see system health clearly and keep the cluster state aligned with Git.
+![GitOps sync and drift recovery](./screenshots/Screenshot%202026-10-11%20at%2010.49.20%E2%80%AFPM.png)
+
+## Main takeaway
+
+The main lesson is that observability and GitOps work best together: telemetry shows what is happening, while Git remains the source of truth for the cluster state.
