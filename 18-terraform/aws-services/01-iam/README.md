@@ -2,15 +2,15 @@
 
 ## What is IAM?
 
-IAM is the AWS service that answers two questions for every single API call
-made against an AWS account:
+IAM is the AWS service that answers two questions for every API call made
+against an AWS account:
 
 1. **Authentication** — *who* is making this request?
 2. **Authorization** — *is that identity allowed* to do this, on this resource?
 
-It is global (not tied to a region) and free. Every other AWS service relies on
-it — there is no way to call S3, EC2 or anything else without IAM evaluating
-the request first.
+It is global, not tied to a region, and it is free. Every other AWS service
+depends on it; there is no way to call S3, EC2, or any other AWS API without
+IAM evaluating the request first.
 
 ```text
 API call  ──►  who are you?  ──►  which policies apply?  ──►  Allow / Deny
@@ -19,15 +19,16 @@ API call  ──►  who are you?  ──►  which policies apply?  ──►  
 
 ## The root user
 
-The email address that created the account is the **root user**. It has
+The email address used to create the account is the **root user**. It has
 unrestricted access that no policy can limit. Best practice is to:
 
 - enable MFA on it immediately,
 - delete any root access keys,
-- lock the credentials away and never use it for daily work.
+- lock the credentials away and never use them for daily work.
 
-Only a handful of tasks genuinely need root (changing the support plan, closing
-the account, restoring a bucket policy that locked everyone out).
+Only a small number of tasks truly require root access, such as changing the
+support plan, closing the account, or restoring a bucket policy that locked
+everyone out.
 
 ## Users
 

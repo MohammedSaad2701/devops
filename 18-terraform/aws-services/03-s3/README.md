@@ -3,9 +3,9 @@
 ## What is S3?
 
 S3 is **object storage**: you store files ("objects") in containers
-("buckets") and retrieve them over HTTPS by key. It is not a filesystem and not
-a block device — there are no real directories, no partial in-place edits, and
-no mounting as a disk.
+("buckets") and retrieve them over HTTPS by key. It is not a filesystem and
+not a block device — there are no real directories, no partial in-place edits,
+and no mounting as a disk.
 
 - **Durability:** 99.999999999% (11 nines) — data is stored redundantly across
   at least three Availability Zones in standard classes.
@@ -13,7 +13,7 @@ no mounting as a disk.
 - **Consistency:** strong read-after-write consistency for every operation.
 
 The [Terraform demo](../../terraform-s3-demo/) in this session creates and
-configures a bucket with everything described below.
+configures a bucket that includes the features described below.
 
 ## Buckets
 

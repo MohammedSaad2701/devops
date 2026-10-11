@@ -15,11 +15,11 @@ the OS upward.
 | | Security Group rules, IAM role |
 | | Backups (EBS snapshots) |
 
-This is the **shared responsibility model** in its most concrete form.
+This is the **shared responsibility model** in its clearest, most concrete form.
 
 ## AMI — Amazon Machine Image
 
-An **AMI** is the template an instance boots from. It contains:
+An **AMI** is the boot template an instance uses. It contains:
 
 - a root volume snapshot (OS + any pre-installed software),
 - launch permissions (who may use it),

@@ -2,10 +2,10 @@
 
 ## What is a VPC?
 
-A **VPC** is your own logically isolated network inside an AWS region. You
-choose its IP range, carve it into subnets, decide how traffic is routed, and
-control what can reach what. Nothing gets in or out unless you build a path
-for it.
+A **VPC** is your own logically isolated network within a single AWS region.
+You choose its IP range, carve it into subnets, decide how traffic is routed,
+and control which resources can reach one another. Nothing can enter or leave
+unless you explicitly create a path for it.
 
 - A VPC lives in **one region** and spans **all of its Availability Zones**.
 - Each subnet lives in **exactly one AZ**.

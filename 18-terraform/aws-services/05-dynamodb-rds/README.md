@@ -1,7 +1,7 @@
 # DynamoDB & RDS — Database Services
 
-AWS offers both families of database as managed services. The choice between
-them is a choice about **data model and access patterns**, not about which is
+AWS offers both database families as managed services. The decision between
+them is about **data model and access patterns**, not simply about which one is
 "better".
 
 | | DynamoDB | RDS |
