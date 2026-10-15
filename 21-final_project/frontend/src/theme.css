@@ -1,0 +1,98 @@
+:root {
+  font-family: "Avenir Next", Avenir, Inter, "Segoe UI", sans-serif;
+  color: #1b2b35;
+  background: #f4f8f7;
+}
+
+body {
+  background: #f4f8f7;
+}
+
+.sidebar {
+  background: #123b3a;
+}
+
+.brand-mark {
+  background: #b9ead8;
+  color: #123b3a;
+}
+
+nav a {
+  color: #b3c9c6;
+}
+
+nav a.active {
+  background: #20514e;
+  color: #fff;
+}
+
+nav a:hover {
+  background: #1a4845;
+  color: #fff;
+}
+
+.upgrade {
+  background: #194441;
+  border-color: #2b5e59;
+}
+
+.primary {
+  background: #14796f;
+}
+
+.primary:hover {
+  background: #10675f;
+}
+
+.stat-icon,
+.activity-icon {
+  background: #e7f4f0;
+  color: #317c70;
+}
+
+.panel,
+.stat {
+  border-color: #e2ece9;
+}
+
+.filters button.selected {
+  color: #14796f;
+}
+
+.priority.high {
+  background: #fff0ed;
+  color: #bd5b4a;
+}
+
+.priority.medium {
+  background: #fff5df;
+  color: #a87923;
+}
+
+.priority.low {
+  background: #eaf6ef;
+  color: #43855d;
+}
+
+.status.in_progress {
+  background: #eaf1ff;
+  color: #526fae;
+}
+
+.status.done {
+  background: #e8f6ee;
+  color: #43855d;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #57a99a;
+  box-shadow: 0 0 0 3px #57a99a24;
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    background: #123b3a;
+  }
+}
