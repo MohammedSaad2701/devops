@@ -267,12 +267,3 @@ kubectl delete -f troubleshooting/broken-image.yaml
 ![Broken-image manifest](screenshots/27.png)
 
 The manifest intentionally references a nonexistent image tag. It should produce an image-pull failure, which demonstrates a practical diagnosis flow using `kubectl get pods`, `kubectl describe pod`, events, and manifest review.
-
-## Demo completion checklist
-
-- [ ] Create, update, and delete a task in the UI and Swagger.
-- [ ] Show a real row in the PostgreSQL `tasks` table.
-- [ ] Commit and push one small change; show the matching GitHub Actions run and GHCR tags.
-- [ ] Show running Kubernetes pods, services, Helm release, Ingress hostname, and HPA metrics.
-- [ ] Show TaskBoard as `UP` in Prometheus and a populated Grafana panel.
-- [ ] Simulate one failure and explain the diagnosis and recovery.
