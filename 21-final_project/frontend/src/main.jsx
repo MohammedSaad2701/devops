@@ -95,7 +95,7 @@ function App() {
           <div className="profile">
             <div className="avatar">NR</div>
             <div>
-              <b>Nensi Ravaliya</b>
+              <b>Mohammed Saad</b>
               <small>Developer</small>
             </div>
             <span>⋮</span>
@@ -106,7 +106,7 @@ function App() {
         <header>
           <div>
             <p className="eyebrow">WORKSPACE / OVERVIEW</p>
-            <h1>Good morning, Nensi 👋</h1>
+            <h1>Good morning, Mohammed 👋</h1>
             <p className="muted">
               Here’s what’s happening with your team today.
             </p>
@@ -285,7 +285,7 @@ function App() {
                 </label>
                 <label>
                   Assignee
-                  <input name="assignee" defaultValue="Nensi Ravaliya" />
+                  <input name="assignee" defaultValue="Mohammed Saad" />
                 </label>
               </div>
               <button className="primary full">Create task</button>
