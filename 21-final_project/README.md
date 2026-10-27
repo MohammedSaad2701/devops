@@ -1,3 +1,5 @@
+**Presentation:** [PPT](PPT.pdf) · **Demo video:** [Video](video.mov)
+
 # TaskBoard — DevOps Capstone
 
 TaskBoard is a small task-management application used to demonstrate a complete DevOps delivery workflow: a React frontend, FastAPI backend, PostgreSQL database, Docker images, CI/CD, image scanning, Terraform, Kubernetes, Helm, Ingress, autoscaling, and monitoring.
